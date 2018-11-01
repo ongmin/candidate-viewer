@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Sans-Serif;
+  height: 100vh;
+  /* background-color: #ffb500; */
+  background: rgb(45,183,253);
+  background: linear-gradient(148deg, rgba(45,183,253,1) 0%, rgba(37,101,147,1) 100%);
+}

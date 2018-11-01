@@ -1,0 +1,33 @@
+{
+  "name": "candidate-viewer",
+  "version": "1.0.0",
+  "description": "Simple candidate viewer",
+  "author": {
+    "name": "Min Ong",
+    "username": "@ongmin"
+  },
+  "license": "MIT",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev:server": "cd client && yarn build && cd .. && yarn start",
+    "start": "node server.js",
+    "install": "npm install && cd client && npm install",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "node-fetch": "^2.2.0",
+    "nodemon": "^1.18.5"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "create-react-app"
+  ]
+}
