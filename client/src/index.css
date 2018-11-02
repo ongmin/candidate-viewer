@@ -51,6 +51,16 @@ h1 {
   font-weight: 800;
 }
 
+.btn.input {
+  height: 33px;
+  line-height: 33px;
+  box-shadow: 1px 1px 1px 1px #ffb500;
+}
+
+.btn.input:disabled {
+  box-shadow: none;
+}
+
 button:disabled, 
 button:disabled:hover {
   opacity: 0.3;
@@ -58,6 +68,20 @@ button:disabled:hover {
   cursor: none;
   text-shadow: none; 
   box-shadow: none;
+}
+
+input {
+  padding: 10px 15px;
+  border: none;
+  box-shadow: 1px 1px 1px 1px #ffb500;
+}
+
+input:disabled {
+  opacity: 0.3;
+  cursor: none;
+  text-shadow: none; 
+  box-shadow: none;
+  background-color: #8f8f8f;
 }
 
 .btn.wide {

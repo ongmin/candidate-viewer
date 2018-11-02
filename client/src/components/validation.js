@@ -1,4 +1,5 @@
 import React from 'react';
+import './style/validation.css';
 
 const getError = (type, maxSize) => {
   switch (type) {
@@ -7,7 +8,7 @@ const getError = (type, maxSize) => {
     case "outOfRange": 
       return "Please input a page number between 1 and " + maxSize;
     default:
-      return "Error";
+      return "";
   }
 }
 

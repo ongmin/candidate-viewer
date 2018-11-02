@@ -42,7 +42,10 @@ export default class App extends Component {
   }
 
   setPage = page => {
-    this.setState({ activePage: page }, this.getPage);
+    this.setState({ 
+      activePage: page,
+      errorType: null
+    }, this.getPage);
   }
 
   navigate = direction => {
@@ -68,9 +71,13 @@ export default class App extends Component {
     
     let { requestedPage, totalPages } = this.state;
 
-    if (requestedPage < 0 || requestedPage > totalPages) {
+    if (!requestedPage) {
+      this.triggerError("missingInput");
+    }
+    else if ((requestedPage < 0) || (requestedPage > totalPages)) {
       this.triggerError("outOfRange");
-    } else {
+    } 
+    else {
       this.setPage(this.state.requestedPage);
     }
   }
@@ -85,7 +92,8 @@ export default class App extends Component {
       profiles, 
       totalPages, 
       arrTotalPages, 
-      activePage 
+      activePage,
+      errorType
     } = this.state;
   
     return (
@@ -101,17 +109,27 @@ export default class App extends Component {
         </div>
 
         <div className="actions-container">
-          <div className="row right">
+          <div className="row right block">
             <form onSubmit={this.handleSubmit}>
               <input
                 type="number"
                 className="profile-search"
-                placeholder="Page Number"
+                placeholder="Page"
+                min={1}
+                max={totalPages}
                 value={this.state.requestedPage}
+                disabled={!profiles.length}
                 onChange={event => this.handleChange(event)}
               />
-              <Button styleName="wide input" onClick={() => console.log('bang')} text="Get Page" />
+              <Button
+                styleName="wide input"
+                disabled={!profiles.length}
+                onClick={() => console.log('bang')} 
+                text="Get Page" />
             </form>
+            { errorType &&
+              <ValidationText type={errorType} text={this.state.errorType} maxSize={totalPages}/>
+            }
           </div>
           <div className="row right">
             <button 
