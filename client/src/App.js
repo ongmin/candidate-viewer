@@ -101,11 +101,15 @@ export default class App extends Component {
       <div className="App-container">
 
         <header className="App-header">
-          View Profiles
+          {"View Profiles"}
         </header>
 
         <div className="actions-container">
-          <Button styleName="large" disabled={profiles.length} onClick={() => this.getPage()} text="Get People" />
+          <Button 
+            styleName="large" 
+            disabled={profiles.length} 
+            onClick={() => this.getPage()} 
+            text="Get People" />
         </div>
 
         <div className="actions-container">
@@ -132,24 +136,25 @@ export default class App extends Component {
             }
           </div>
           <div className="row right">
-            <button 
-              className={"btn" + (activePage === 1 ? " inactive" : "")}
+            <Button
+              styleName={(activePage === 1 ? " inactive" : "")}
               disabled={!profiles.length || (activePage === 1)}
-              onClick={() => this.navigate("previous")}>
-              <Icon name="angleLeft" />
-            </button>
+              onClick={() => this.navigate("previous")} 
+              text={<Icon name="angleLeft" />} />
+      
             { arrTotalPages && arrTotalPages.map(page => (
-                <button key={page} 
-                  className={"btn" + (activePage === page ? " active" : "")} 
-                  onClick={() => this.setPage(page)}>{page}</button>
+                <Button
+                  key={page}
+                  styleName={"btn" + (activePage === page ? " active" : "")}
+                  onClick={() => this.setPage(page)}
+                  text={page} />
               )) 
             }
-            <button
-              className={"btn" + (activePage === totalPages ? " inactive" : "")}
+            <Button
+              styleName={"btn" + (activePage === totalPages ? " inactive" : "")}
               disabled={!profiles.length || (activePage === totalPages)}
-              onClick={() => this.navigate("next")}>
-              <Icon name="angleRight" />
-            </button>
+              onClick={() => this.navigate("next")}
+              text={<Icon name="angleRight" />} />
           </div>
         </div>
 
