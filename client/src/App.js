@@ -3,6 +3,7 @@ import './App.css';
 import { Profile } from './components/profile';
 import { Button } from './components/button';
 import { Icon } from './components/icon';
+import { ValidationText } from './components/validation';
 
 import { convertToArray } from './utils/index';
 
@@ -12,10 +13,11 @@ export default class App extends Component {
     
     this.state = {
       profiles: [],
+      activePage: 1,
       totalPage: 0,
       arrTotalPages: [],
-      activePage: 1,
-      pageRequested: ''
+      requestedPage: '',
+      errorType: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,20 +56,27 @@ export default class App extends Component {
     }
   }
 
+  handleChange (event) {
+    this.setState({ 
+      requestedPage: Number(event.target.value),
+      errorType: null
+    })
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     
-    let { pageRequested, totalPages } = this.state;
+    let { requestedPage, totalPages } = this.state;
 
-    if (pageRequested < 0 || pageRequested > totalPages) {
-      
+    if (requestedPage < 0 || requestedPage > totalPages) {
+      this.triggerError("outOfRange");
     } else {
-      this.setPage(this.state.pageRequested);
+      this.setPage(this.state.requestedPage);
     }
   }
 
-  handleChange (event) {
-    this.setState({ pageRequested: event.target.value })
+  triggerError = type => {
+    this.setState({ errorType: type });
   }
 
   render() {
@@ -98,7 +107,7 @@ export default class App extends Component {
                 type="number"
                 className="profile-search"
                 placeholder="Page Number"
-                value={this.state.pageRequested}
+                value={this.state.requestedPage}
                 onChange={event => this.handleChange(event)}
               />
               <Button styleName="wide input" onClick={() => console.log('bang')} text="Get Page" />

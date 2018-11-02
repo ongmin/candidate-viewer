@@ -9,7 +9,10 @@ Simple practice for react app with viewing function and pagination.
 
 1. Install project dependencies
 ```
-npm run install
+yarn install
+cd client
+yarn install
+cd ..
 ```
 
 2. To start the server and client at the same time (from the root of the project)
