@@ -16,7 +16,7 @@ export default class App extends Component {
       activePage: 1,
       totalPage: 0,
       arrTotalPages: [],
-      requestedPage: '',
+      requestedPage: null,
       errorType: null
     };
 
