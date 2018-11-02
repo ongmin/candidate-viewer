@@ -93,7 +93,8 @@ export default class App extends Component {
       totalPages, 
       arrTotalPages, 
       activePage,
-      errorType
+      errorType,
+      requestedPage
     } = this.state;
   
     return (
@@ -121,14 +122,13 @@ export default class App extends Component {
                 placeholder="Page"
                 min={1}
                 max={totalPages}
-                value={this.state.requestedPage}
+                value={requestedPage ? requestedPage : ""}
                 disabled={!profiles.length}
                 onChange={event => this.handleChange(event)}
               />
               <Button
                 styleName="wide input"
-                disabled={!profiles.length}
-                onClick={() => console.log('bang')} 
+                disabled={!profiles.length} 
                 text="Get Page" />
             </form>
             { errorType &&
