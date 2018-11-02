@@ -25,3 +25,10 @@ cd ..
 yarn launch
 ```
 
+## To deploy
+
+To deploy to heroku, use the following two scripts
+```
+start
+heroku-postbuild
+```
