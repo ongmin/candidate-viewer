@@ -1,8 +1,16 @@
 .App {
-  text-align: center;
+  height: 100%;
+  margin: 0px 30px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.App-container {
   background-color: #ffffff;
+  margin: 30px 0px;
   border-radius: 10px;
-  margin: 30px;
+  text-align: center;
+  overflow-y: scroll;
   box-shadow: 0px 1px 5px -1px rgba(0,0,50, 0.5);
 }
 
@@ -28,8 +36,9 @@
 }
 
 .actions-container {
-  padding: 20px;
-  text-align: right;
+  padding: 20px 0px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .actions-container .row {

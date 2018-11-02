@@ -1,8 +1,13 @@
 import React from 'react';
 import './style/button.css';
 
-export const Button = ({ onClick, text, styleName }) => {
+export const Button = ({ onClick, text, styleName, disabled }) => {
   return (
-      <button className={"btn" + (styleName ? " " + styleName : "")} onClick={onClick}>{text}</button>
+      <button 
+        className={"btn" + (styleName ? " " + styleName : "")} 
+        onClick={onClick}
+        disabled={disabled}>
+        {text}
+      </button>
   )
 };

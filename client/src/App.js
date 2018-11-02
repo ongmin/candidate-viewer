@@ -4,27 +4,22 @@ import { Profile } from './components/profile';
 import { Button } from './components/button';
 import { Icon } from './components/icon';
 
+import { convertToArray } from './utils/index';
+
 export default class App extends Component {
   constructor (props) {
     super(props);
     
     this.state = {
-      response: '',
-      post: '',
-      responseToPost: '',
       profiles: [],
       totalPage: 0,
       arrTotalPages: [],
-      activePage: 1
+      activePage: 1,
+      pageRequested: ''
     };
-  }
 
-  componentDidMount() {
-    this.getPage();
-  }
-
-  getProfiles () {
-    this.getPage();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   callApi = async () => {
@@ -39,7 +34,7 @@ export default class App extends Component {
     .then(res => this.setState({
       profiles: res.data,
       totalPages: res.total_pages,
-      arrTotalPages: this.getArray(res.total_pages)
+      arrTotalPages: convertToArray(res.total_pages)
     }))
     .catch(err => console.log(err));
   }
@@ -48,26 +43,32 @@ export default class App extends Component {
     this.setState({ activePage: page }, this.getPage);
   }
 
-  getArray = pages => {
-    let result = [];
-    for (var i = 1; i <= pages; i++) {
-      result.push(i);
+  navigate = direction => {
+    switch (direction) {
+      case "next":
+        return this.setPage(this.state.activePage + 1);
+      case "previous":
+        return this.setPage(this.state.activePage - 1);
+      default:
+        return;
     }
-    return result;
   }
 
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    this.setState({ responseToPost: body });
-  };
+  handleSubmit = event => {
+    event.preventDefault();
+    
+    let { pageRequested, totalPages } = this.state;
+
+    if (pageRequested < 0 || pageRequested > totalPages) {
+      
+    } else {
+      this.setPage(this.state.pageRequested);
+    }
+  }
+
+  handleChange (event) {
+    this.setState({ pageRequested: event.target.value })
+  }
 
   render() {
 
@@ -77,58 +78,63 @@ export default class App extends Component {
       arrTotalPages, 
       activePage 
     } = this.state;
-
-    console.log('bang');
-    console.log(profiles);
   
     return (
       <div className="App">
+      <div className="App-container">
+
         <header className="App-header">
           View Profiles
         </header>
 
         <div className="actions-container">
+          <Button styleName="large" disabled={profiles.length} onClick={() => this.getPage()} text="Get People" />
+        </div>
+
+        <div className="actions-container">
           <div className="row right">
             <form onSubmit={this.handleSubmit}>
               <input
-                type="text"
+                type="number"
                 className="profile-search"
-                placeholder="Search name"
-                value={this.state.post}
-                onChange={e => this.setState({ post: e.target.value })}
+                placeholder="Page Number"
+                value={this.state.pageRequested}
+                onChange={event => this.handleChange(event)}
               />
-              <Button styleName="wide input" onClick={() => console.log('bang')} text="Submit" />
+              <Button styleName="wide input" onClick={() => console.log('bang')} text="Get Page" />
             </form>
           </div>
           <div className="row right">
-            <button className={"btn" + (activePage === 1 ? " inactive" : "")}
-              disabled={(activePage === 1)}>
+            <button 
+              className={"btn" + (activePage === 1 ? " inactive" : "")}
+              disabled={!profiles.length || (activePage === 1)}
+              onClick={() => this.navigate("previous")}>
               <Icon name="angleLeft" />
             </button>
-            <Button styleName="wide" onClick={() => this.getProfiles()} text="Get People" />
             { arrTotalPages && arrTotalPages.map(page => (
                 <button key={page} 
                   className={"btn" + (activePage === page ? " active" : "")} 
                   onClick={() => this.setPage(page)}>{page}</button>
               )) 
             }
-            <button className={"btn" + (activePage === totalPages ? " inactive" : "")}
-              disabled={(activePage === totalPages)}>
+            <button
+              className={"btn" + (activePage === totalPages ? " inactive" : "")}
+              disabled={!profiles.length || (activePage === totalPages)}
+              onClick={() => this.navigate("next")}>
               <Icon name="angleRight" />
             </button>
           </div>
         </div>
 
         <div className="profiles-container">
-
-        {profiles ? profiles.map(profile => (
-            <Profile profile={profile} key={profile.id}/>
-          )) :
-          <div>There are no profiles available</div>
-        }
-
+          {profiles ? profiles.map(profile => (
+              <Profile profile={profile} key={profile.id}/>
+            )) :
+            <div>There are no profiles loaded</div>
+          }
         </div>
 
+      </div>
       </div>
     );
   }

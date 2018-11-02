@@ -11,14 +11,14 @@ const profilesUrl = 'https://reqres.in/api/users?page=';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/hello', (req, res) => {
-  fetch(profilesUrl)
-    .then(res => res.json())
-    .then(response => {
-      console.log(response.data)
-      res.send({ express: 'hi' });
-    })
-});
+// app.get('/api/hello', (req, res) => {
+//   fetch(profilesUrl)
+//     .then(res => res.json())
+//     .then(response => {
+//       console.log(response.data)
+//       res.send({ express: 'hi' });
+//     })
+// });
 
 app.get('/api/profiles/:id', (req, res) => {
 
